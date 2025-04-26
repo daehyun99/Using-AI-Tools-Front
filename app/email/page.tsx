@@ -5,6 +5,23 @@ import { useRouter } from 'next/navigation';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const registerEmail = async (email: string) => {
+  const response = await fetch('http://localhost:8000/Auth/register/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.detail || '이메일 등록에 실패했습니다.');
+  }
+
+  return response.json();
+};
+
 export default function EmailPage() {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,21 +37,19 @@ export default function EmailPage() {
 
     try {
       setIsSubmitting(true);
-      // 이메일 제출 로직 구현 예정
-      const success = Math.random() > 0.3; // 임시로 성공/실패 시뮬레이션
-      
-      if (success) {
-        alert('[Success] 이메일로 ID와 PW가 발급되었습니다. 이메일을 확인해주세요.');
-        setEmail('');
-      } else {
-        throw new Error('daily_limit_exceeded');
-      }
+      await registerEmail(email);
+      alert('[Success] 이메일로 ID와 PW가 발급되었습니다. 이메일을 확인해주세요.');
+      setEmail('');
     } catch (error) {
       console.error('Email submission failed:', error);
-      if (error instanceof Error && error.message === 'daily_limit_exceeded') {
-        alert('[Fail] 일일 이메일 전송 한도 초과 (서비스 문제)');
+      if (error instanceof Error) {
+        if (error.message.includes('daily_limit_exceeded')) {
+          alert('[Fail] 일일 이메일 전송 한도 초과 (서비스 문제)');
+        } else {
+          alert(`[Fail] ${error.message}`);
+        }
       } else {
-        alert('[Fail] 잘못된 이메일 양식입니다.');
+        alert('[Fail] 이메일 등록에 실패했습니다.');
       }
     } finally {
       setIsSubmitting(false);
