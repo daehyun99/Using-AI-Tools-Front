@@ -37,9 +37,13 @@ export default function EmailPage() {
 
     try {
       setIsSubmitting(true);
-      await registerEmail(email);
-      alert('[Success] 이메일로 ID와 PW가 발급되었습니다. 이메일을 확인해주세요.');
-      setEmail('');
+      const response = await registerEmail(email);
+      if (response.status === 200) {
+        alert(response.msg);
+        setEmail('');
+      } else {
+        alert(response.msg);
+      }
     } catch (error) {
       console.error('Email submission failed:', error);
       if (error instanceof Error) {
@@ -99,7 +103,7 @@ export default function EmailPage() {
           <div className="mt-8 text-sm text-gray-500">
             <h3 className="font-medium text-gray-900 mb-2">안내사항</h3>
             <ul className="list-disc pl-5 space-y-1">
-              <li>입력하신 이메일로 고유 ID와 비밀번호가 발송됩니다.</li>
+              <li>입력하신 이메일로 사용자 인증 정보가 발송됩니다.</li>
               <li>스팸 메일함도 확인해주세요.</li>
             </ul>
           </div>

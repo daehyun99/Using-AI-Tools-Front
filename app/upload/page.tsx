@@ -78,8 +78,12 @@ export default function UploadPage() {
         throw new Error('사용자 이메일 정보를 찾을 수 없습니다.');
       }
       // 2. 파일 번역 요청
-      await translateFile(file, userEmail);
-      alert('[Success] 파일이 성공적으로 업로드되었습니다. 번역 결과는 이메일로 전송됩니다.');
+      const response = await translateFile(file, userEmail);
+      if (response.status === 200) {
+        alert(response.msg);
+      } else {
+        alert(response.msg);
+      }
       setUuid('');
       setPassword('');
       setFile(null);
@@ -116,7 +120,7 @@ export default function UploadPage() {
                 value={uuid}
                 onChange={(e) => setUuid(e.target.value)}
                 className="input-primary"
-                placeholder="UUID를 입력하세요"
+                placeholder="발급받은 사용자ID를 입력하세요"
                 required
               />
             </div>
@@ -130,7 +134,7 @@ export default function UploadPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="input-primary"
-                placeholder="비밀번호를 입력하세요"
+                placeholder="발급받은 PW를 입력하세요"
                 required
               />
             </div>
@@ -160,6 +164,7 @@ export default function UploadPage() {
             <ul className="list-disc pl-5 space-y-1">
               <li>입력하신 ID/PW가 올바른 경우에만 번역이 진행됩니다.</li>
               <li>번역된 파일은 등록된 이메일로 전송됩니다.</li>
+              <li>번역에는 3 ~ 5분 정도 소요됩니다.</li>
               <li>PDF 파일만 지원합니다.</li>
             </ul>
           </div>

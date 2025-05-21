@@ -13,7 +13,7 @@ export default function Home() {
           </h1>
           <div className="bg-gray-100 p-8 rounded-lg max-w-3xl mx-auto">
             <p className="text-xl text-gray-700 mb-6">
-              AI 기술을 활용한 정확하고 빠른 번역 서비스를 경험해보세요.
+              AI 기술을 활용한 정확하고 빠른 AI분야 논문 번역 서비스를 경험해보세요.
             </p>
             <p className="text-lg text-gray-600 mb-4">
               PDF 문서를 업로드하면 자동으로 번역된 결과를 받아볼 수 있습니다.
@@ -32,7 +32,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-center mb-12">서비스 특징</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-semibold mb-4">간편한 이메일 인증</h3>
+              <h3 className="text-xl font-semibold mb-4">사용자 인증 최소화</h3>
               <p className="text-gray-600">이메일만으로 빠르게 서비스를 시작할 수 있습니다.</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
